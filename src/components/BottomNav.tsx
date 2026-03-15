@@ -101,28 +101,26 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-6 pt-2"
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-5 pt-3"
       aria-label="Hauptnavigation"
+      style={{ paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom))" }}
     >
       <div
         ref={containerRef}
-        className="relative flex items-center justify-around gap-1 rounded-[2rem] px-3 py-1.5 shadow-[var(--shadow-lg)] transition-shadow duration-200"
+        className="relative flex items-center justify-around gap-1 rounded-2xl border px-4 py-2.5"
         style={{
-          background: "var(--glass-bg)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "var(--bg-card)",
           border: "1px solid rgba(16, 185, 129, 0.45)",
-          boxShadow: "var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.6) inset",
+          boxShadow: "var(--shadow-nav)",
         }}
       >
-        {/* Gleitender Indikator */}
         {pillStyle && (
           <span
-            className="absolute top-1.5 bottom-1.5 rounded-3xl bg-emerald-500/15"
+            className="absolute top-2.5 bottom-2.5 rounded-xl bg-[var(--accent-soft)]"
             style={{
               left: pillStyle.left,
               width: pillStyle.width,
-              transition: "left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              transition: "left 0.3s var(--ease), width 0.3s var(--ease)",
             }}
             aria-hidden
           />
@@ -135,10 +133,10 @@ export default function BottomNav() {
               key={href}
               ref={(el) => { itemRefs.current[i] = el; }}
               href={href}
-              className={`relative z-10 flex flex-col items-center gap-0.5 rounded-3xl px-3 py-1.5 transition-colors duration-300 ease-out min-w-[48px] ${
+              className={`relative z-10 flex flex-col items-center gap-0.5 rounded-xl px-3 py-2 transition-colors duration-300 min-w-[48px] ${
                 active
-                  ? "text-emerald-600"
-                  : "text-slate-500 hover:text-slate-700 active:text-slate-900"
+                  ? "text-[var(--accent)]"
+                  : "text-[var(--text-muted)] hover:text-[var(--text)]"
               }`}
               aria-current={active ? "page" : undefined}
             >
@@ -146,8 +144,8 @@ export default function BottomNav() {
                 <Icon active={active} />
               </span>
               <span
-                className={`relative text-[10px] font-medium transition-colors duration-300 ease-out ${
-                  active ? "text-emerald-600" : ""
+                className={`relative text-[10px] font-semibold transition-colors duration-300 ${
+                  active ? "text-[var(--accent)]" : ""
                 }`}
               >
                 {label}

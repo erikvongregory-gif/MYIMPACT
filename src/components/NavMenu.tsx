@@ -70,6 +70,10 @@ function MenuIcon({ open }: { open: boolean }) {
 export default function NavMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [credentialsError, setCredentialsError] = useState("");
+  const [credentialsLoading, setCredentialsLoading] = useState(false);
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
@@ -92,31 +96,23 @@ export default function NavMenu() {
 
       {/* Slide-out Menu - Liquid Glass */}
       <nav
-        className={`fixed right-0 top-0 z-[9999] flex h-full w-72 max-w-[85vw] flex-col border-l border-slate-200/80 shadow-2xl transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-[9999] flex h-full w-72 max-w-[85vw] flex-col border-l transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
         style={{
-          background: "var(--glass-bg)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          boxShadow: "var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.5) inset",
+          background: "var(--bg-card)",
+          borderColor: "var(--border)",
+          boxShadow: "var(--shadow-card-hover)",
         }}
         aria-label="Hauptmenü"
       >
-        {/* Specular highlight top */}
-        <div
-          className="absolute left-0 right-0 top-0 h-px"
-          style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
-          }}
-        />
-        <div className="flex items-center justify-between border-b border-slate-200/80 px-4 py-4">
-          <span className="font-semibold text-slate-900">
+        <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: "var(--border)" }}>
+          <span className="heading-display font-semibold text-[var(--text)]">
             Menü
           </span>
           <button
             onClick={closeMenu}
-            className="flex h-10 w-10 items-center justify-center rounded-2xl text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-[var(--text-muted)] transition-colors hover:bg-[var(--bg)] hover:text-[var(--text)]"
             aria-label="Menü schließen"
           >
             <MenuIcon open={true} />
@@ -132,9 +128,9 @@ export default function NavMenu() {
                 <Link
                   href={item.href}
                   onClick={closeMenu}
-                  className={`block rounded-2xl px-4 py-3 text-slate-700 transition-colors hover:bg-slate-100 ${
+                  className={`block rounded-xl px-4 py-3 text-[var(--text)] transition-colors hover:bg-[var(--bg)] ${
                     isActive
-                      ? "bg-emerald-500/10 font-medium text-emerald-700"
+                      ? "bg-[var(--accent-soft)] font-medium text-[var(--accent)]"
                       : ""
                   }`}
                 >
@@ -165,11 +161,68 @@ export default function NavMenu() {
           ) : (
             <>
               <p className="mb-3 text-sm font-medium text-slate-900">Anmelden</p>
-              <div className="space-y-2">
+              <div className="space-y-3">
+                {process.env.NEXT_PUBLIC_CREDENTIALS_ENABLED === "true" && (
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setCredentialsError("");
+                    setCredentialsLoading(true);
+                    const res = await signIn("credentials", {
+                      email: email.trim(),
+                      password,
+                      redirect: false,
+                    });
+                    setCredentialsLoading(false);
+                    if (res?.error) {
+                      setCredentialsError("E-Mail oder Passwort falsch.");
+                      return;
+                    }
+                    if (res?.ok) {
+                      setEmail("");
+                      setPassword("");
+                      closeMenu();
+                    }
+                  }}
+                  className="space-y-2"
+                >
+                  <input
+                    type="email"
+                    placeholder="E-Mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                    className="w-full rounded-xl border border-slate-200/80 bg-white/90 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Passwort"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                    className="w-full rounded-xl border border-slate-200/80 bg-white/90 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  />
+                  {credentialsError && (
+                    <p className="text-sm text-red-500">{credentialsError}</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={credentialsLoading || !email.trim() || !password}
+                    className="w-full rounded-xl border border-emerald-600/80 bg-emerald-600 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-700 disabled:opacity-50"
+                  >
+                    {credentialsLoading ? "Wird angemeldet…" : "Mit E-Mail anmelden"}
+                  </button>
+                </form>
+                )}
+                {process.env.NEXT_PUBLIC_CREDENTIALS_ENABLED === "true" && (
+                <div className="relative">
+                  <span className="block text-center text-xs text-slate-500">oder</span>
+                </div>
+                )}
                 <button
                   type="button"
                   onClick={() => signIn("google")}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50/90"
                 >
                   <GoogleIcon />
                   Mit Google anmelden
@@ -178,7 +231,7 @@ export default function NavMenu() {
                   <button
                     type="button"
                     onClick={() => signIn("apple")}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-black py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900 py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
                   >
                     <AppleIcon />
                     Mit Apple anmelden
@@ -197,7 +250,7 @@ export default function NavMenu() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-2xl text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-[var(--text-muted)] transition-colors hover:bg-[var(--bg)] hover:text-[var(--text)]"
         aria-label="Menü öffnen"
         aria-expanded={open}
       >

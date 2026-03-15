@@ -24,7 +24,7 @@ const BOTSCHAFTER_LINKS: { slug: string; label: string; urlBase: string; withBid
 
 function LinkIcon() {
   return (
-    <svg className="h-5 w-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-5 w-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
     </svg>
   );
@@ -80,25 +80,18 @@ export default function LinkErstellenPage() {
   };
 
   return (
-    <div className="page-bg min-h-screen">
-      <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
-        style={{
-          background: "rgba(248, 252, 250, 0.7)",
-          border: "1px solid rgba(34, 197, 94, 0.12)",
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.35) inset, 0 4px 24px -4px rgba(0,0,0,0.06)",
-        }}
-      >
-        <div className="flex items-center justify-between gap-4 px-4 py-4">
+    <div className="page-bg min-h-screen" style={{ background: "var(--bg)" }}>
+      <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--bg-card)] shadow-sm">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="flex items-center gap-2 text-emerald-800 transition-colors hover:text-emerald-900"
+              className="flex items-center gap-2 text-[var(--accent)] transition-colors hover:opacity-80"
             >
               <BackIcon />
               <span className="text-sm font-medium">Zurück</span>
             </Link>
-            <h1 className="text-lg font-semibold tracking-tight text-emerald-900">
+            <h1 className="heading-display text-lg font-semibold text-[var(--text)]">
               Individuellen Link erstellen
             </h1>
           </div>
@@ -107,20 +100,13 @@ export default function LinkErstellenPage() {
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <section
-          className="glass-panel overflow-hidden rounded-3xl"
-          style={{
-            background: "rgba(248, 252, 250, 0.7)",
-            border: "1px solid rgba(34, 197, 94, 0.12)",
-            backdropFilter: "blur(20px)",
-          }}
-        >
+        <section className="glass-panel overflow-hidden rounded-2xl">
           <div className="glass-panel-header flex items-center gap-2 px-6 py-4">
             <LinkIcon />
-            <h2 className="font-semibold text-emerald-900">Tippgebernummer eingeben</h2>
+            <h2 className="heading-display font-semibold text-[var(--text)]">Tippgebernummer eingeben</h2>
           </div>
           <div className="space-y-4 p-6">
-            <p className="text-sm text-emerald-600">
+            <p className="text-sm text-[var(--text-muted)]">
               Gib deine 8-stellige Tippgebernummer ein, um individuelle Links für
               Investoren und Botschafter zu erstellen.
             </p>
@@ -134,12 +120,12 @@ export default function LinkErstellenPage() {
                 onChange={(e) =>
                   setTippgebernummer(e.target.value.replace(/\D/g, "").slice(0, 8))
                 }
-                className="flex-1 rounded-2xl border border-emerald-200 bg-white/80 px-4 py-2.5 font-mono text-emerald-900 placeholder:text-emerald-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                className="flex-1 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2.5 font-mono text-[var(--text)] placeholder:text-[var(--text-soft)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-soft)]"
               />
               <button
                 onClick={generateLinks}
                 disabled={tippgebernummer.length !== 8}
-                className="rounded-2xl border border-emerald-300 bg-emerald-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:hover:bg-emerald-600"
+                className="rounded-xl bg-[var(--accent)] px-5 py-2.5 font-medium text-white transition-colors hover:bg-[var(--accent-hover)] disabled:opacity-50"
               >
                 Links erstellen
               </button>
@@ -154,20 +140,20 @@ export default function LinkErstellenPage() {
             )}
             {Object.keys(generatedLinks).length > 0 && (
               <>
-                <div className="space-y-3 rounded-2xl border border-emerald-300 bg-emerald-100/60 p-4">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">
+                <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                     Inhalte für Investoren
                   </span>
                   <div className="space-y-2">
                     {INVESTOR_LINKS.map(({ slug, label }) => (
                       <div
                         key={slug}
-                        className="flex flex-col gap-2 rounded-2xl border border-emerald-200 bg-white/80 p-3 sm:flex-row sm:items-center"
+                        className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-3 sm:flex-row sm:items-center"
                       >
-                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
+                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-[var(--text)]">
                           {label}
                         </span>
-                        <code className="flex-1 truncate rounded-xl bg-emerald-50/80 px-3 py-2 text-xs text-emerald-800">
+                        <code className="flex-1 truncate rounded-lg bg-[var(--bg)] px-3 py-2 text-xs text-[var(--text-muted)]">
                           {generatedLinks[slug]}
                         </code>
                         <button
@@ -175,32 +161,32 @@ export default function LinkErstellenPage() {
                             copyToClipboard(generatedLinks[slug], slug)
                           }
                           disabled={tippgebernummer.length !== 8}
-                          className="shrink-0 rounded-2xl border border-emerald-300 bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+                          className="shrink-0 rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {copiedSlug === slug ? "Kopiert!" : "Kopieren"}
                         </button>
                       </div>
                     ))}
                   </div>
-                  <p className="text-xs font-medium text-emerald-800">
+                  <p className="text-xs font-medium text-[var(--text-muted)]">
                     Der Link befindet sich nun in der Zwischenablage und kann beliebig eingefügt und versendet werden.
                   </p>
                 </div>
 
-                <div className="space-y-3 rounded-2xl border border-emerald-300 bg-emerald-100/60 p-4">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">
+                <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                     Inhalte für Botschafter
                   </span>
                   <div className="space-y-2">
                     {BOTSCHAFTER_LINKS.map(({ slug, label }) => (
                       <div
                         key={slug}
-                        className="flex flex-col gap-2 rounded-2xl border border-emerald-200 bg-white/80 p-3 sm:flex-row sm:items-center"
+                        className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-3 sm:flex-row sm:items-center"
                       >
-                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
+                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-[var(--text)]">
                           {label}
                         </span>
-                        <code className="flex-1 truncate rounded-xl bg-emerald-50/80 px-3 py-2 text-xs text-emerald-800">
+                        <code className="flex-1 truncate rounded-lg bg-[var(--bg)] px-3 py-2 text-xs text-[var(--text-muted)]">
                           {generatedBotschafterLinks[slug]}
                         </code>
                         <button
@@ -208,14 +194,14 @@ export default function LinkErstellenPage() {
                             copyBotschafterToClipboard(generatedBotschafterLinks[slug], slug)
                           }
                           disabled={tippgebernummer.length !== 8}
-                          className="shrink-0 rounded-2xl border border-emerald-300 bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+                          className="shrink-0 rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {copiedBotschafterSlug === slug ? "Kopiert!" : "Kopieren"}
                         </button>
                       </div>
                     ))}
                   </div>
-                  <p className="text-xs font-medium text-emerald-800">
+                  <p className="text-xs font-medium text-[var(--text-muted)]">
                     Der Link befindet sich nun in der Zwischenablage und kann beliebig eingefügt und versendet werden.
                   </p>
                 </div>

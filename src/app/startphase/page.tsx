@@ -5,7 +5,7 @@ import NavMenu from "@/components/NavMenu";
 
 function RocketIcon() {
   return (
-    <svg className="h-5 w-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-5 w-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
     </svg>
   );
@@ -28,25 +28,15 @@ const startphaseItems = [
 
 export default function StartphasePage() {
   return (
-    <div className="page-bg min-h-screen">
-      <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
-        style={{
-          background: "rgba(248, 252, 250, 0.7)",
-          border: "1px solid rgba(34, 197, 94, 0.12)",
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.35) inset, 0 4px 24px -4px rgba(0,0,0,0.06)",
-        }}
-      >
-        <div className="flex items-center justify-between gap-4 px-4 py-4">
+    <div className="page-bg min-h-screen" style={{ background: "var(--bg)" }}>
+      <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--bg-card)] shadow-sm">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
           <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-emerald-800 transition-colors hover:text-emerald-900"
-            >
+            <Link href="/" className="flex items-center gap-2 text-[var(--accent)] transition-colors hover:opacity-80">
               <BackIcon />
               <span className="text-sm font-medium">Zurück</span>
             </Link>
-            <h1 className="text-lg font-semibold tracking-tight text-emerald-900">
+            <h1 className="heading-display text-lg font-semibold text-[var(--text)]">
               Erfolgreiche Startphase
             </h1>
           </div>
@@ -55,22 +45,15 @@ export default function StartphasePage() {
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <section
-          className="glass-panel overflow-hidden rounded-3xl"
-          style={{
-            background: "rgba(248, 252, 250, 0.7)",
-            border: "1px solid rgba(34, 197, 94, 0.12)",
-            backdropFilter: "blur(20px)",
-          }}
-        >
+        <section className="glass-panel overflow-hidden rounded-2xl">
           <div className="glass-panel-header flex items-center gap-2 px-6 py-4">
             <RocketIcon />
-            <h2 className="font-semibold text-emerald-900">
+            <h2 className="heading-display font-semibold text-[var(--text)]">
               Erfolgreiche Startphase
             </h2>
           </div>
           <div className="p-6">
-            <p className="mb-4 text-sm text-emerald-600">
+            <p className="mb-4 text-sm text-[var(--text-muted)]">
               Checklisten, Tipps und Ressourcen für einen starken Start als
               Botschafter.
             </p>
@@ -78,12 +61,12 @@ export default function StartphasePage() {
               {startphaseItems.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/50 px-4 py-3"
+                  className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3"
                 >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-xl bg-emerald-100 text-xs font-semibold text-emerald-800">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-xs font-semibold text-[var(--accent)]">
                     {i + 1}
                   </span>
-                  <span className="text-emerald-800">{item}</span>
+                  <span className="text-[var(--text)]">{item}</span>
                 </li>
               ))}
             </ul>

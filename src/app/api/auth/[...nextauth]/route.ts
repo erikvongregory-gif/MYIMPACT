@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +20,31 @@ const handler = NextAuth({
           }),
         ]
       : []),
+    CredentialsProvider({
+      id: "credentials",
+      name: "E-Mail & Passwort",
+      credentials: {
+        email: { label: "E-Mail", type: "email" },
+        password: { label: "Passwort", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+        const envEmail = process.env.CREDENTIALS_EMAIL;
+        const envPassword = process.env.CREDENTIALS_PASSWORD;
+        if (!envEmail || !envPassword) return null;
+        if (
+          credentials.email === envEmail &&
+          credentials.password === envPassword
+        ) {
+          return {
+            id: "credentials-user",
+            email: credentials.email,
+            name: credentials.email.split("@")[0],
+          };
+        }
+        return null;
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
@@ -30,9 +56,16 @@ const handler = NextAuth({
       return baseUrl;
     },
     session({ session, token }) {
+      if (token?.email) session.user!.email = token.email as string;
+      if (token?.name) session.user!.name = token.name as string;
       return session;
     },
-    jwt({ token, account }) {
+    jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
       return token;
     },
   },

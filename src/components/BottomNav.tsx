@@ -111,7 +111,7 @@ export default function BottomNav() {
           background: "var(--glass-bg)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          border: "1px solid var(--glass-border)",
+          border: "1px solid rgba(16, 185, 129, 0.45)",
           boxShadow: "var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.6) inset",
         }}
       >

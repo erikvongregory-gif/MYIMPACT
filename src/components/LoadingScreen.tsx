@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const LOGO_PATH = "/logo-isii.svg";
+const LOGO_PATH = "/logo.svg";
 
 export default function LoadingScreen({ onComplete }: { onComplete?: () => void }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -36,9 +36,9 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
       <div className="absolute right-1/3 top-1/2 h-64 w-64 animate-liquid-float-slow rounded-full bg-emerald-400/10 blur-[80px]" />
 
       {/* Central liquid glass container */}
-      <div className="liquid-glass relative flex flex-col items-center justify-center rounded-[2rem] p-12 sm:p-16">
+      <div className="liquid-glass relative flex flex-col items-center justify-center rounded-[2.5rem] p-12 sm:p-16">
         {/* Inner glow */}
-        <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+        <div className="absolute inset-0 overflow-hidden rounded-[2.5rem]">
           <div className="absolute -left-1/2 -top-1/2 h-full w-full rounded-full bg-white/10 blur-3xl" />
           <div className="absolute -bottom-1/2 -right-1/2 h-full w-full rounded-full bg-emerald-400/5 blur-3xl" />
         </div>
@@ -58,16 +58,16 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
             {!logoError ? (
               <Image
                 src={LOGO_PATH}
-                alt="ISII AG"
+                alt="MYIMPACT"
                 width={200}
                 height={90}
-                className="h-auto w-[180px] max-w-[220px] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:w-[200px]"
+                className="h-auto w-[160px] max-w-[200px] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:w-[180px]"
                 onError={() => setLogoError(true)}
                 priority
               />
             ) : (
               <span className="liquid-logo-text text-3xl font-semibold tracking-[0.12em] sm:text-4xl">
-                ISII AG
+                MYIMPACT
               </span>
             )}
           </div>
@@ -77,7 +77,7 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
-                className="h-2 w-2 rounded-full bg-white/80"
+                className="h-2 w-2 rounded-full bg-white/90"
                 style={{
                   animation: "liquid-loading-bounce 1.2s ease-in-out infinite",
                   animationDelay: `${i * 0.15}s`,

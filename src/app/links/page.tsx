@@ -61,7 +61,7 @@ export default function LinkErstellenPage() {
   return (
     <div className="page-bg min-h-screen">
       <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-2xl backdrop-blur-xl sm:mx-auto"
+        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
         style={{
           background: "rgba(248, 252, 250, 0.7)",
           border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -87,7 +87,7 @@ export default function LinkErstellenPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <section
-          className="glass-panel overflow-hidden rounded-2xl"
+          className="glass-panel overflow-hidden rounded-3xl"
           style={{
             background: "rgba(248, 252, 250, 0.7)",
             border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -113,12 +113,12 @@ export default function LinkErstellenPage() {
                 onChange={(e) =>
                   setTippgebernummer(e.target.value.replace(/\D/g, "").slice(0, 8))
                 }
-                className="flex-1 rounded-xl border border-emerald-200 bg-white/80 px-4 py-2.5 font-mono text-emerald-900 placeholder:text-emerald-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                className="flex-1 rounded-2xl border border-emerald-200 bg-white/80 px-4 py-2.5 font-mono text-emerald-900 placeholder:text-emerald-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
               />
               <button
                 onClick={generateLinks}
                 disabled={tippgebernummer.length !== 8}
-                className="rounded-xl border border-emerald-300 bg-emerald-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:hover:bg-emerald-600"
+                className="rounded-2xl border border-emerald-300 bg-emerald-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:hover:bg-emerald-600"
               >
                 Links erstellen
               </button>
@@ -127,7 +127,7 @@ export default function LinkErstellenPage() {
               <p className="text-sm text-red-400">{error}</p>
             )}
             {Object.keys(generatedLinks).length > 0 && (
-              <div className="space-y-3 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4">
+              <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
                 <span className="text-xs font-medium text-emerald-700">
                   Inhalte für Investoren:
                 </span>
@@ -135,19 +135,19 @@ export default function LinkErstellenPage() {
                   {INVESTOR_LINKS.map(({ slug, label }) => (
                     <div
                       key={slug}
-                      className="flex flex-col gap-2 rounded-xl border border-emerald-100 bg-emerald-50/50 p-3 sm:flex-row sm:items-center"
+                      className="flex flex-col gap-2 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 sm:flex-row sm:items-center"
                     >
                       <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
                         {label}
                       </span>
-                      <code className="flex-1 truncate rounded-lg bg-white px-3 py-2 text-xs text-emerald-800">
+                      <code className="flex-1 truncate rounded-xl bg-white px-3 py-2 text-xs text-emerald-800">
                         {generatedLinks[slug]}
                       </code>
                       <button
                         onClick={() =>
                           copyToClipboard(generatedLinks[slug], slug)
                         }
-                        className="shrink-0 rounded-xl border border-emerald-200 bg-white/80 px-4 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50"
+                        className="shrink-0 rounded-2xl border border-emerald-200 bg-white/80 px-4 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50"
                       >
                         {copiedSlug === slug ? "Kopiert!" : "Kopieren"}
                       </button>

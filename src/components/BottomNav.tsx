@@ -13,7 +13,7 @@ const navItems = [
 
 function HomeIcon({ active }: { active?: boolean }) {
   return (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -26,7 +26,7 @@ function HomeIcon({ active }: { active?: boolean }) {
 
 function LinkIcon({ active }: { active?: boolean }) {
   return (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -39,7 +39,7 @@ function LinkIcon({ active }: { active?: boolean }) {
 
 function CalendarIcon({ active }: { active?: boolean }) {
   return (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -52,7 +52,7 @@ function CalendarIcon({ active }: { active?: boolean }) {
 
 function RocketIcon({ active }: { active?: boolean }) {
   return (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -65,7 +65,7 @@ function RocketIcon({ active }: { active?: boolean }) {
 
 function TeamIcon({ active }: { active?: boolean }) {
   return (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -81,30 +81,49 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 mx-4 mb-4 rounded-2xl"
-      style={{
-        background: "rgba(248, 252, 250, 0.75)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: "1px solid rgba(34, 197, 94, 0.12)",
-        boxShadow: "0 0 0 1px rgba(255,255,255,0.35) inset, 0 -4px 24px -4px rgba(0,0,0,0.06)",
-      }}
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-6 pt-2"
+      aria-label="Hauptnavigation"
     >
-      <div className="flex items-center justify-around px-2 py-3">
+      <div
+        className="flex items-center justify-around gap-1 rounded-[2rem] px-3 py-1.5 shadow-[var(--shadow-lg)] transition-shadow duration-200"
+        style={{
+          background: "var(--glass-bg)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid var(--glass-border)",
+          boxShadow: "var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.6) inset",
+        }}
+      >
         {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href || (href === "/" && pathname === "/");
+          const isActive =
+            pathname === href || (href === "/" && pathname === "/");
           return (
             <Link
               key={href}
               href={href}
-              className={`flex flex-col items-center gap-1 rounded-xl px-4 py-2 transition-colors ${
+              className={`relative flex flex-col items-center gap-0.5 rounded-3xl px-3 py-1.5 transition-colors duration-200 min-w-[48px] ${
                 isActive
-                  ? "text-emerald-700 font-medium"
-                  : "text-emerald-600 hover:text-emerald-800"
+                  ? "text-emerald-600"
+                  : "text-slate-500 hover:text-slate-700 active:text-slate-900"
               }`}
+              aria-current={isActive ? "page" : undefined}
             >
-              <Icon active={isActive} />
-              <span className="text-[10px] font-medium">{label}</span>
+              {isActive && (
+                <span
+                  className="absolute inset-0 rounded-3xl bg-emerald-500/10"
+                  aria-hidden
+                />
+              )}
+              <span className="relative">
+                <Icon active={isActive} />
+              </span>
+              <span
+                className={`relative text-[10px] font-medium ${
+                  isActive ? "text-emerald-600" : ""
+                }`}
+              >
+                {label}
+              </span>
             </Link>
           );
         })}

@@ -85,14 +85,14 @@ function BackIcon() {
 function EventTypeIcon({ type }: { type?: string }) {
   if (type === "qa") {
     return (
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-emerald-600/90 text-lg font-bold text-white">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-600/90 text-lg font-bold text-white">
         F&A
       </div>
     );
   }
   if (type === "zinszahlung") {
     return (
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-emerald-700/30">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-700/30">
         <svg className="h-7 w-7 text-emerald-200/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
         </svg>
@@ -101,13 +101,13 @@ function EventTypeIcon({ type }: { type?: string }) {
   }
   if (type === "update" || type === "best-practice") {
     return (
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-emerald-500/80 text-center text-[10px] font-semibold leading-tight text-white">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/80 text-center text-[10px] font-semibold leading-tight text-white">
         Update
       </div>
     );
   }
   return (
-    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-emerald-100/80">
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-100/80">
       <CalendarIcon />
     </div>
   );
@@ -117,7 +117,7 @@ export default function EventsPage() {
   return (
     <div className="page-bg min-h-screen">
       <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-2xl backdrop-blur-xl sm:mx-auto"
+        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
         style={{
           background: "rgba(248, 252, 250, 0.7)",
           border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -143,7 +143,7 @@ export default function EventsPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <section
-          className="glass-panel overflow-hidden rounded-2xl"
+          className="glass-panel overflow-hidden rounded-3xl"
           style={{
             background: "rgba(248, 252, 250, 0.7)",
             border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -169,7 +169,7 @@ export default function EventsPage() {
                     {events.map((event, i) => (
                       <div
                         key={`${month}-${i}`}
-                        className="flex gap-4 rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 transition-colors hover:border-emerald-200 hover:bg-emerald-50/80"
+                        className="flex gap-4 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4 transition-colors hover:border-emerald-200 hover:bg-emerald-50/80"
                       >
                         <EventTypeIcon type={event.type} />
                         <div className="min-w-0 flex-1">

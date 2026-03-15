@@ -30,7 +30,7 @@ export default function TeamaufbauPage() {
   return (
     <div className="page-bg min-h-screen">
       <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-2xl backdrop-blur-xl sm:mx-auto"
+        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
         style={{
           background: "rgba(248, 252, 250, 0.7)",
           border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -56,7 +56,7 @@ export default function TeamaufbauPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <section
-          className="glass-panel overflow-hidden rounded-2xl"
+          className="glass-panel overflow-hidden rounded-3xl"
           style={{
             background: "rgba(248, 252, 250, 0.7)",
             border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -78,7 +78,7 @@ export default function TeamaufbauPage() {
               {teamCards.map((card, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 transition-colors hover:border-emerald-200 hover:bg-emerald-50/80"
+                  className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4 transition-colors hover:border-emerald-200 hover:bg-emerald-50/80"
                 >
                   <h3 className="font-medium text-emerald-900">{card.title}</h3>
                   <p className="mt-1 text-sm text-emerald-600">{card.desc}</p>

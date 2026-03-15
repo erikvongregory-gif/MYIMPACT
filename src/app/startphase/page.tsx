@@ -30,7 +30,7 @@ export default function StartphasePage() {
   return (
     <div className="page-bg min-h-screen">
       <header
-        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-2xl backdrop-blur-xl sm:mx-auto"
+        className="glass-panel sticky top-0 z-10 mx-4 mt-4 max-w-4xl rounded-3xl backdrop-blur-xl sm:mx-auto"
         style={{
           background: "rgba(248, 252, 250, 0.7)",
           border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -56,7 +56,7 @@ export default function StartphasePage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <section
-          className="glass-panel overflow-hidden rounded-2xl"
+          className="glass-panel overflow-hidden rounded-3xl"
           style={{
             background: "rgba(248, 252, 250, 0.7)",
             border: "1px solid rgba(34, 197, 94, 0.12)",
@@ -78,9 +78,9 @@ export default function StartphasePage() {
               {startphaseItems.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 rounded-xl border border-emerald-100 bg-emerald-50/50 px-4 py-3"
+                  className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/50 px-4 py-3"
                 >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 text-xs font-semibold text-emerald-800">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-xl bg-emerald-100 text-xs font-semibold text-emerald-800">
                     {i + 1}
                   </span>
                   <span className="text-emerald-800">{item}</span>

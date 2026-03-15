@@ -77,7 +77,7 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
-                className="h-2 w-2 rounded-full bg-white/90"
+                className="h-2 w-2 rounded-full bg-emerald-500"
                 style={{
                   animation: "liquid-loading-bounce 1.2s ease-in-out infinite",
                   animationDelay: `${i * 0.15}s`,

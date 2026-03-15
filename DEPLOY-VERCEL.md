@@ -47,6 +47,30 @@ Optional: Unter **Settings → Domains** kannst du eine eigene Domain eintragen 
 
 ---
 
+## 4. Updates nach Push – werden nicht angezeigt?
+
+Wenn du gepusht hast, die Live-Seite unter dem Link aber noch den alten Stand zeigt:
+
+1. **Vercel-Dashboard prüfen**
+   - Gehe zu **https://vercel.com** → dein Projekt **MYIMPACT**.
+   - Öffne den Tab **„Deployments“**.
+   - Siehst du einen **neuen Eintrag** mit dem letzten Commit (z.B. „BottomNav: grüne Border“)?
+   - **Nein** → GitHub ist evtl. nicht verbunden oder Auto-Deploy ist aus. Unter **Settings → Git** prüfen: „Production Branch“ = `main`, und dass „Deploy on push“ aktiv ist.
+   - **Ja, aber Status „Failed“** → Auf den Eintrag klicken und die **Build-Logs** ansehen, Fehler beheben.
+
+2. **Redeploy von Hand auslösen**
+   - Im Projekt: **Deployments** → bei dem gewünschten Commit auf die **drei Punkte (⋯)** klicken → **„Redeploy“**.
+   - Oder: **Settings → Git** → „Redeploy“ für den letzten Commit auslösen.
+
+3. **Browser-Cache umgehen**
+   - Seite mit **Strg+Shift+R** (Windows) bzw. **Cmd+Shift+R** (Mac) neu laden.
+   - Oder Link im **Inkognito-/Privatfenster** öffnen.
+
+4. **Production-Branch stimmen**
+   - Du musst auf den Branch pushen, den Vercel als „Production“ nutzt (meist `main`). Nur dann baut Vercel die Live-URL neu.
+
+---
+
 ## Kurzfassung
 
 | Schritt | Aktion |

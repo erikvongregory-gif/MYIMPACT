@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
 
+export const dynamic = "force-dynamic";
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -18,6 +20,7 @@ const handler = NextAuth({
       : []),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
   pages: {
     signIn: "/",
   },
@@ -25,6 +28,12 @@ const handler = NextAuth({
     redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) return url;
       return baseUrl;
+    },
+    session({ session, token }) {
+      return session;
+    },
+    jwt({ token, account }) {
+      return token;
     },
   },
 });

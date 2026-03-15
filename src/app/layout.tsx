@@ -17,6 +17,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MYIMPACT – Botschafter-Portal | Deutsche Nachhaltigkeit",
   description: "Portal für Botschafter: Individuelle Links, Events, Startphase und Teamaufbau.",
+  manifest: "/manifest.json",
+  themeColor: "#059669",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "MYIMPACT",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export default function RootLayout({

@@ -57,7 +57,7 @@ export default function Startseite() {
             </div>
             <div className="flex items-center gap-2">
               <span className="hidden rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 sm:inline-block">
-                Nachhaltigkeit
+                Deutsche Nachhaltigkeit
               </span>
               <NavMenu />
             </div>
@@ -91,7 +91,7 @@ export default function Startseite() {
             className="mb-10 max-w-xl mx-auto text-center text-slate-600 sm:text-base"
             style={{ animation: "fade-in 0.5s ease-out 0.1s both" }}
           >
-            Dein zentraler Ort für Links, Events und Ressourcen für deutsche
+            Dein zentraler Ort für Links, Events und Ressourcen für die Deutsche
             Nachhaltigkeit.
           </p>
 
@@ -188,7 +188,7 @@ export default function Startseite() {
 
         <footer className="mt-16 border-t border-slate-200/80 py-8">
           <div className="mx-auto max-w-4xl px-4 text-center text-sm text-slate-500">
-            MYIMPACT · Botschafter für deutsche Nachhaltigkeit
+            MYIMPACT · Botschafter für die Deutsche Nachhaltigkeit
           </div>
         </footer>
       </div>

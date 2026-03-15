@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useRef, useLayoutEffect, useState } from "react";
 
 const navItems = [
   { href: "/", label: "Start", icon: HomeIcon },
@@ -78,6 +79,25 @@ function TeamIcon({ active }: { active?: boolean }) {
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number } | null>(null);
+
+  const activeIndex = navItems.findIndex(
+    ({ href }) => pathname === href || (href === "/" && pathname === "/")
+  );
+
+  useLayoutEffect(() => {
+    if (activeIndex < 0 || !containerRef.current || !itemRefs.current[activeIndex]) return;
+    const container = containerRef.current.getBoundingClientRect();
+    const activeEl = itemRefs.current[activeIndex];
+    if (!activeEl) return;
+    const rect = activeEl.getBoundingClientRect();
+    setPillStyle({
+      left: rect.left - container.left,
+      width: rect.width,
+    });
+  }, [pathname, activeIndex]);
 
   return (
     <nav
@@ -85,7 +105,8 @@ export default function BottomNav() {
       aria-label="Hauptnavigation"
     >
       <div
-        className="flex items-center justify-around gap-1 rounded-[2rem] px-3 py-1.5 shadow-[var(--shadow-lg)] transition-shadow duration-200"
+        ref={containerRef}
+        className="relative flex items-center justify-around gap-1 rounded-[2rem] px-3 py-1.5 shadow-[var(--shadow-lg)] transition-shadow duration-200"
         style={{
           background: "var(--glass-bg)",
           backdropFilter: "blur(20px)",
@@ -94,32 +115,39 @@ export default function BottomNav() {
           boxShadow: "var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.6) inset",
         }}
       >
-        {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive =
+        {/* Gleitender Indikator */}
+        {pillStyle && (
+          <span
+            className="absolute top-1.5 bottom-1.5 rounded-3xl bg-emerald-500/15"
+            style={{
+              left: pillStyle.left,
+              width: pillStyle.width,
+              transition: "left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+            aria-hidden
+          />
+        )}
+        {navItems.map(({ href, label, icon: Icon }, i) => {
+          const active =
             pathname === href || (href === "/" && pathname === "/");
           return (
             <Link
               key={href}
+              ref={(el) => { itemRefs.current[i] = el; }}
               href={href}
-              className={`relative flex flex-col items-center gap-0.5 rounded-3xl px-3 py-1.5 transition-colors duration-200 min-w-[48px] ${
-                isActive
+              className={`relative z-10 flex flex-col items-center gap-0.5 rounded-3xl px-3 py-1.5 transition-colors duration-300 ease-out min-w-[48px] ${
+                active
                   ? "text-emerald-600"
                   : "text-slate-500 hover:text-slate-700 active:text-slate-900"
               }`}
-              aria-current={isActive ? "page" : undefined}
+              aria-current={active ? "page" : undefined}
             >
-              {isActive && (
-                <span
-                  className="absolute inset-0 rounded-3xl bg-emerald-500/10"
-                  aria-hidden
-                />
-              )}
               <span className="relative">
-                <Icon active={isActive} />
+                <Icon active={active} />
               </span>
               <span
-                className={`relative text-[10px] font-medium ${
-                  isActive ? "text-emerald-600" : ""
+                className={`relative text-[10px] font-medium transition-colors duration-300 ease-out ${
+                  active ? "text-emerald-600" : ""
                 }`}
               >
                 {label}

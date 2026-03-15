@@ -4,15 +4,22 @@ import { useState } from "react";
 import Link from "next/link";
 import NavMenu from "@/components/NavMenu";
 
-const INVESTOR_BASE = typeof window !== "undefined" ? window.location.origin : "";
+/** Investoren: Basis-URL + ?bid=, Nummer wird angehängt. */
+const INVESTOR_LINKS: { slug: string; label: string; urlBase: string }[] = [
+  { slug: "anleihe", label: "Individueller Zeichnungsschein", urlBase: "https://deutsche-nachhaltigkeit.com/inhalt/anleihe?bid=" },
+  { slug: "simple-show", label: "Simple Show", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/simple-show?bid=" },
+  { slug: "impact-investment", label: "Impact Investment", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/impact-investment?bid=" },
+  { slug: "investoren-stimmen", label: "Investoren-Stimmen", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/investoren-stimmen?bid=" },
+  { slug: "iisii-talk", label: "IISII Talk mit Ole Nixdorff", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/iisii-talk-mit-ole-nixdorff?bid=" },
+  { slug: "dn-beteiligungen", label: "DN Beteiligungen", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/dn-beteiligungen?bid=" },
+];
 
-const INVESTOR_LINKS: { slug: string; label: string }[] = [
-  { slug: "zeichnungsschein", label: "Individueller Zeichnungsschein" },
-  { slug: "simple-show", label: "Simple Show" },
-  { slug: "video-impact", label: "Video Impact Investments" },
-  { slug: "video-testimonials", label: "Video Testimonials" },
-  { slug: "isii-talk-faq", label: "ISII Talk 10% Anleihe FAQ" },
-  { slug: "dn-portfolio", label: "DN Beteiligungs Portfolio" },
+/** Botschafter: urlBase mit ?bid= → Nummer anhängen; ohne ?bid= → statischer Link (keine Nummer). */
+const BOTSCHAFTER_LINKS: { slug: string; label: string; urlBase: string; withBid: boolean }[] = [
+  { slug: "iisii-ag-trailer", label: "IISII AG Trailer (IMD 2025)", urlBase: "https://deutsche-nachhaltigkeit.eu-1.quentn-site.com/iisii-ag-trailer", withBid: false },
+  { slug: "unternehmens-praesentation", label: "Zur Unternehmens-Präsentation einladen (Botschafter)", urlBase: "https://form.jotform.com/243291653178361?bid=", withBid: true },
+  { slug: "botschafter-information", label: "Zur Botschafter-Information einladen", urlBase: "https://form.jotform.com/243291653178361?bid=", withBid: true },
+  { slug: "tippgeber-registrieren", label: "Neuen Tippgeber registrieren", urlBase: "https://form.jotform.com/241507181817052?bid=", withBid: true },
 ];
 
 function LinkIcon() {
@@ -34,28 +41,42 @@ function BackIcon() {
 export default function LinkErstellenPage() {
   const [tippgebernummer, setTippgebernummer] = useState("");
   const [generatedLinks, setGeneratedLinks] = useState<Record<string, string>>({});
+  const [generatedBotschafterLinks, setGeneratedBotschafterLinks] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const [copiedBotschafterSlug, setCopiedBotschafterSlug] = useState<string | null>(null);
 
   const generateLinks = () => {
     const num = tippgebernummer.replace(/\s/g, "");
     if (!/^\d{8}$/.test(num)) {
-      setError("Bitte genau 8 Ziffern eingeben.");
+      setError("Überprüfe deine Tippgebernummer");
       setGeneratedLinks({});
+      setGeneratedBotschafterLinks({});
       return;
     }
     setError("");
     const links: Record<string, string> = {};
-    INVESTOR_LINKS.forEach(({ slug }) => {
-      links[slug] = `${INVESTOR_BASE}/investoren/${slug}?tippgeber=${num}`;
+    INVESTOR_LINKS.forEach(({ slug, urlBase }) => {
+      links[slug] = urlBase + num;
     });
     setGeneratedLinks(links);
+    const botschafterLinks: Record<string, string> = {};
+    BOTSCHAFTER_LINKS.forEach(({ slug, urlBase, withBid }) => {
+      botschafterLinks[slug] = withBid ? urlBase + num : urlBase;
+    });
+    setGeneratedBotschafterLinks(botschafterLinks);
   };
 
   const copyToClipboard = async (link: string, slug: string) => {
     await navigator.clipboard.writeText(link);
     setCopiedSlug(slug);
     setTimeout(() => setCopiedSlug(null), 2000);
+  };
+
+  const copyBotschafterToClipboard = async (link: string, slug: string) => {
+    await navigator.clipboard.writeText(link);
+    setCopiedBotschafterSlug(slug);
+    setTimeout(() => setCopiedBotschafterSlug(null), 2000);
   };
 
   return (
@@ -101,7 +122,7 @@ export default function LinkErstellenPage() {
           <div className="space-y-4 p-6">
             <p className="text-sm text-emerald-600">
               Gib deine 8-stellige Tippgebernummer ein, um individuelle Links für
-              Investoren-Inhalte zu erstellen.
+              Investoren und Botschafter zu erstellen.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <input
@@ -124,37 +145,81 @@ export default function LinkErstellenPage() {
               </button>
             </div>
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p className="text-sm font-medium text-red-500">{error}</p>
+            )}
+            {tippgebernummer.length > 0 && tippgebernummer.length !== 8 && (
+              <p className="text-sm font-medium text-red-500">
+                Überprüfe deine Tippgebernummer
+              </p>
             )}
             {Object.keys(generatedLinks).length > 0 && (
-              <div className="space-y-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
-                <span className="text-xs font-medium text-emerald-700">
-                  Inhalte für Investoren:
-                </span>
-                <div className="space-y-2">
-                  {INVESTOR_LINKS.map(({ slug, label }) => (
-                    <div
-                      key={slug}
-                      className="flex flex-col gap-2 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 sm:flex-row sm:items-center"
-                    >
-                      <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
-                        {label}
-                      </span>
-                      <code className="flex-1 truncate rounded-xl bg-white px-3 py-2 text-xs text-emerald-800">
-                        {generatedLinks[slug]}
-                      </code>
-                      <button
-                        onClick={() =>
-                          copyToClipboard(generatedLinks[slug], slug)
-                        }
-                        className="shrink-0 rounded-2xl border border-emerald-200 bg-white/80 px-4 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50"
+              <>
+                <div className="space-y-3 rounded-2xl border border-emerald-300 bg-emerald-100/60 p-4">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">
+                    Inhalte für Investoren
+                  </span>
+                  <div className="space-y-2">
+                    {INVESTOR_LINKS.map(({ slug, label }) => (
+                      <div
+                        key={slug}
+                        className="flex flex-col gap-2 rounded-2xl border border-emerald-200 bg-white/80 p-3 sm:flex-row sm:items-center"
                       >
-                        {copiedSlug === slug ? "Kopiert!" : "Kopieren"}
-                      </button>
-                    </div>
-                  ))}
+                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
+                          {label}
+                        </span>
+                        <code className="flex-1 truncate rounded-xl bg-emerald-50/80 px-3 py-2 text-xs text-emerald-800">
+                          {generatedLinks[slug]}
+                        </code>
+                        <button
+                          onClick={() =>
+                            copyToClipboard(generatedLinks[slug], slug)
+                          }
+                          disabled={tippgebernummer.length !== 8}
+                          className="shrink-0 rounded-2xl border border-emerald-300 bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+                        >
+                          {copiedSlug === slug ? "Kopiert!" : "Kopieren"}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs font-medium text-emerald-800">
+                    Der Link befindet sich nun in der Zwischenablage und kann beliebig eingefügt und versendet werden.
+                  </p>
                 </div>
-              </div>
+
+                <div className="space-y-3 rounded-2xl border border-emerald-300 bg-emerald-100/60 p-4">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-emerald-800">
+                    Inhalte für Botschafter
+                  </span>
+                  <div className="space-y-2">
+                    {BOTSCHAFTER_LINKS.map(({ slug, label }) => (
+                      <div
+                        key={slug}
+                        className="flex flex-col gap-2 rounded-2xl border border-emerald-200 bg-white/80 p-3 sm:flex-row sm:items-center"
+                      >
+                        <span className="min-w-[180px] shrink-0 text-sm font-medium text-emerald-900">
+                          {label}
+                        </span>
+                        <code className="flex-1 truncate rounded-xl bg-emerald-50/80 px-3 py-2 text-xs text-emerald-800">
+                          {generatedBotschafterLinks[slug]}
+                        </code>
+                        <button
+                          onClick={() =>
+                            copyBotschafterToClipboard(generatedBotschafterLinks[slug], slug)
+                          }
+                          disabled={tippgebernummer.length !== 8}
+                          className="shrink-0 rounded-2xl border border-emerald-300 bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+                        >
+                          {copiedBotschafterSlug === slug ? "Kopiert!" : "Kopieren"}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs font-medium text-emerald-800">
+                    Der Link befindet sich nun in der Zwischenablage und kann beliebig eingefügt und versendet werden.
+                  </p>
+                </div>
+              </>
             )}
           </div>
         </section>

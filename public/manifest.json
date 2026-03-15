@@ -1,7 +1,7 @@
 {
   "name": "MYIMPACT Botschafter",
   "short_name": "MYIMPACT",
-  "description": "Botschafter-Portal für deutsche Nachhaltigkeit",
+  "description": "Botschafter-Portal für die Deutsche Nachhaltigkeit",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#e4eae7",

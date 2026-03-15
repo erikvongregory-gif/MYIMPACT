@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MYIMPACT – Botschafter-Portal | Deutsche Nachhaltigkeit",
-  description: "Portal für Botschafter: Individuelle Links, Events, Startphase und Teamaufbau.",
+  title: "MYIMPACT – Botschafter-Portal für die Deutsche Nachhaltigkeit",
+  description: "Botschafter-Portal für die Deutsche Nachhaltigkeit: Individuelle Links, Events, Startphase und Teamaufbau.",
   manifest: "/manifest.json",
   themeColor: "#059669",
   viewport: {

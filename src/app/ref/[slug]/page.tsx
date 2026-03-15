@@ -22,7 +22,7 @@ export default async function RefPage({
           Willkommen über den Link von {slug.replace(/-/g, " ")}
         </h1>
         <p className="mt-3 text-emerald-600">
-          Du wurdest von einem Botschafter für MYIMPACT weitergeleitet. Hier
+          Du wurdest von einem Botschafter für die Deutsche Nachhaltigkeit weitergeleitet. Hier
           geht es zur Nachhaltigkeits-Plattform.
         </p>
         <Link
